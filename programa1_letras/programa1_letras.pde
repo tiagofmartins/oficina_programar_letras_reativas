@@ -1,4 +1,5 @@
 Fonte fonte;
+boolean guardar = false;
 
 void setup() {
   size(900, 500, P2D);
@@ -10,6 +11,16 @@ void draw() {
   background(240);
   desenharTexto("LETRAS", 50, 50, 15);
   desenharTexto("MODULARES", 50, 50 + 15 * 7, 15);
+  
+  // guardar imagem com nome unico (evitando a substituicao de imagens guardadas anteriormente)
+  if (guardar) {
+    save(System.currentTimeMillis() + ".png");
+    guardar = false;
+  }
+}
+
+void keyReleased() {
+  guardar = true;
 }
 
 void desenharTexto(String texto, float x, float y, float dimModulo) {
