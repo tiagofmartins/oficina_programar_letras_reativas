@@ -1,37 +1,39 @@
-import processing.sound.*; // importar biblioteca que permite trabalhar com som
+// Importar biblioteca que permite trabalhar com som
+import processing.sound.*;
 
-// variaveis globais
-AudioIn input;      // objeto que captura som
-Amplitude loudness; // objeto que analiza som
-float volume = 0;   // variavel para guardar o volume (valor entre 0 e 1)
+// Criar variaveis para analisar audio captado pelo micro
+AudioIn input;
+Amplitude loudness;
+float volume = 0;
 
-// funcao executada 1 vez no inicio do programa
+// Funcao executada 1 vez no inicio do programa
 void setup() {
-  size(400, 400); // definir dimensao da janela
-  smooth(8);      // ligar suavizacao dos contornos
+  size(400, 400);
+  smooth(8);
   
-  input = new AudioIn(this, 0);   // criar input de som
-  input.start();                  // iniciar captura de som 
-  loudness = new Amplitude(this); // criar analizador de som
-  loudness.input(input);          // ligar o input de som ao analizador
+  // Inicializar variaveis para analisar audio captado pelo micro
+  input = new AudioIn(this, 0);
+  input.start(); 
+  loudness = new Amplitude(this);
+  loudness.input(input);
 }
 
-// funcao executada continuamente apos a funcao setup()
+// Funcao executada continuamente apos a funcao setup()
 void draw() {
-  float novoVolume = loudness.analyze();        // determinar o volume sonoro
-  novoVolume = constrain(novoVolume * 5, 0, 1); // amplificar o volume mantendo o seu valor entre 0 e 1
-  volume = volume * 0.7 + novoVolume * 0.3;     // atualizar o valor do volume de forma suave 
+  // Calcular o volume do audio captado pelo micro (valor entre 0 e 1)
+  float novoVolume = loudness.analyze();
+  novoVolume = constrain(novoVolume * 10, 0, 1);
+  volume = volume * 0.6 + novoVolume * 0.4; 
  
-  background(0);   // limpar janela
-  stroke(255);     // ligar contorno branco
-  strokeWeight(5); // definir espessura linha
+  background(0);
+  stroke(255);
+  strokeWeight(5);
   
-  // desenhar estrelha com dimensao determinada pelo volume sonoro
+  // Desenhar estrelha com dimensao determinada pelo volume sonoro
   desenharEstrela(width / 2, height / 2, volume * 200, 30);
 }
 
 void desenharEstrela(float posX, float posY, float raio, int pontas) {
-  //strokeCap(SQUARE); // utilizar extremidades quadradas nas linhas
   float anguloEntreLinhas = TWO_PI / pontas;
   for (int i = 0; i < pontas; i++) {
     float pontaX = posX + raio * cos(i * anguloEntreLinhas);

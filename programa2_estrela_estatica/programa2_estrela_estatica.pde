@@ -11,7 +11,6 @@ void draw() {
 }
 
 void desenharEstrela(float posX, float posY, float raio, int pontas) {
-  //strokeCap(SQUARE); // utilizar extremidades quadradas nas linhas
   float anguloEntreLinhas = TWO_PI / pontas;
   for (int i = 0; i < pontas; i++) {
     float pontaX = posX + raio * cos(i * anguloEntreLinhas);
